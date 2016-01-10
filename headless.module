@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Contains headless.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function headless_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+
+    // Main module help for the headless module.
+    case 'help.page.headless':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Exposes Drupal user operations as routes that support the JSON exchange format.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

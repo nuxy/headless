@@ -1,0 +1,20 @@
+headless.login:
+  path: '/api/user/login'
+  defaults:
+    _controller: '\Drupal\headless\Controller\UserController::login'
+  requirements:
+    _user_is_logged_in: 'FALSE'
+
+headless.logout:
+  path: '/api/user/logout'
+  defaults:
+    _controller: '\Drupal\headless\Controller\UserController::logout'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
+headless.register:
+  path: '/api/user/register'
+  defaults:
+    _controller: '\Drupal\headless\Controller\UserController::register'
+  requirements:
+    _user_is_logged_in: 'FALSE'
