@@ -99,12 +99,6 @@ class UserController extends HeadlessBase {
 
     // Form submission success.
     if (isset($output['data'])) {
-
-      // Set-up response.
-      $output['data'] = array(
-        'uid' => \Drupal::currentUser()->id(),
-      );
-
       $status = Response::HTTP_ACCEPTED;
     }
 
