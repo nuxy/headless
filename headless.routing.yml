@@ -18,3 +18,10 @@ headless.register:
     _controller: '\Drupal\headless\Controller\UserController::register'
   requirements:
     _user_is_logged_in: 'FALSE'
+
+headless.password:
+  path: '/api/user/password'
+  defaults:
+    _controller: '\Drupal\headless\Controller\UserController::passwordReset'
+  requirements:
+    _user_is_logged_in: 'FALSE'

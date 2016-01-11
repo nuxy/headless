@@ -7,93 +7,45 @@
 
 namespace Drupal\headless\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Form\FormState;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Drupal\headless\HeadlessBase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * Controller routine.
  */
-class UserController extends ControllerBase {
+class UserController extends HeadlessBase {
 
   /**
-   * Serializer instance.
-   *
-   * @var \Symfony\Component\Serializer\Serializer
-   */
-  protected $serializer;
-
-  /**
-   * General constructor.
-   *
-   * @param Serializer $serializer
-   */
-  public function __construct(Serializer $serializer) {
-    $this->serializer = $serializer;
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('serializer')
-    );
-  }
-
-  /**
-   * Login the User creating new session.
-   *
-   * @param Request $request
+   * Login the User creating a new session.
    *
    * @return \Symfony\Component\HttpFoundation\Response
    *   Response represents an HTTP response.
    */
-  public function login(Request $request) {
-    $output = NULL;
+  public function login() {
+    $output = $this->submitForm('\Drupal\user\Form\UserLoginForm');
     $status = NULL;
 
-    $content = $request->getContent();
-    if ($content) {
-      $params = $this->serializer->decode($content, 'json');
+    // Form submission success.
+    if (isset($output['data'])) {
 
-      $form_state = (new FormState())->setValues($params);
+      // Set-up response.
+      $output['data'] = array(
+        'uid' => \Drupal::currentUser()->id(),
+      );
 
-      \Drupal::formBuilder()->submitForm('\Drupal\user\Form\UserLoginForm', $form_state);
+      $status = Response::HTTP_ACCEPTED;
+    }
 
-      $errors = $form_state->getErrors();
-      if ($errors) {
-        $output = $this->serializer->serialize(array('error' => $errors), 'json');
-        $status = Response::HTTP_BAD_REQUEST;
-      }
-      else {
-        $account = \Drupal::entityManager()->getStorage('user')->load(\Drupal::currentUser()->id());
-        $fields  = $account->getFields();
-
-        // Remove hidden fields (Display mode 'default').
-        $view_display = \Drupal::entityManager()->getStorage('entity_view_display')->load('user.user.default');
-        if ($view_display) {
-          $content = $view_display->get('content');
-
-          foreach ($fields as $field_name => $field) {
-            if (substr($field_name, 0, 6) === 'field_' && !isset($content[$field_name])) {
-              unset($fields[$field_name]);
-            }
-          }
-        }
-
-        $output = $this->serializer->serialize(array('data' => $fields), 'json');
-        $status = Response::HTTP_ACCEPTED;
-      }
+    // Errors exist.
+    elseif (isset($output['error'])) {
+      $status = Response::HTTP_BAD_REQUEST;
     }
     else {
       $status = Response::HTTP_FORBIDDEN;
     }
 
-    return new Response($output, $status);
+    // Send the response.
+    return new Response($this->serialize($output), $status);
   }
 
   /**
@@ -105,43 +57,66 @@ class UserController extends ControllerBase {
   public function logout() {
     user_logout();
 
-    return new Response(NULL, Response::HTTP_ACCEPTED);
+    return new Response(NULL, Response::HTTP_OK);
   }
 
   /**
-   * Create a new User account.
-   *
-   * @param Request $request
+   * Register the User creating a new User account.
    *
    * @return \Symfony\Component\HttpFoundation\Response
    *   Response represents an HTTP response.
    */
-  public function register(Request $request) {
+  public function register() {
+    $output = $this->submitForm('\Drupal\user\Form\RegisterForm');
     $status = NULL;
-    $output = NULL;
 
-    $content = $request->getContent();
-    if ($content) {
-      $params = $this->serializer->decode($content, 'json');
+    // Form submission success.
+    if (isset($output['data'])) {
+      $status = Response::HTTP_ACCEPTED;
+    }
 
-      $form_state = new FormState();
-      $form_state->setValues($params);
-
-      \Drupal::formBuilder()->submitForm('\Drupal\user\Form\RegisterForm', $form_state);
-
-      $errors = $form_state->getErrors();
-      if ($errors) {
-        $output = $this->serializer->serialize(array('error' => $errors), 'json');
-        $status = Response::HTTP_BAD_REQUEST;
-      }
-      else {
-        $status = Response::HTTP_ACCEPTED;
-      }
+    // Errors exist.
+    elseif (isset($output['error'])) {
+      $status = Response::HTTP_BAD_REQUEST;
     }
     else {
       $status = Response::HTTP_FORBIDDEN;
     }
 
-    return new Response($output, $status);
+    // Send the response.
+    return new Response($this->serialize($output), $status);
+  }
+
+  /**
+   * Generates a unique URL for a user to login and reset their password.
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   Response represents an HTTP response.
+   */
+  public function passwordReset() {
+    $output = $this->submitForm('\Drupal\user\Form\UserPasswordResetForm');
+    $status = NULL;
+
+    // Form submission success.
+    if (isset($output['data'])) {
+
+      // Set-up response.
+      $output['data'] = array(
+        'uid' => \Drupal::currentUser()->id(),
+      );
+
+      $status = Response::HTTP_ACCEPTED;
+    }
+
+    // Errors exist.
+    elseif (isset($output['error'])) {
+      $status = Response::HTTP_BAD_REQUEST;
+    }
+    else {
+      $status = Response::HTTP_FORBIDDEN;
+    }
+
+    // Send the response.
+    return new Response($this->serialize($output), $status);
   }
 }
