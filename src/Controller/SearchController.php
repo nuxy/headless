@@ -8,7 +8,7 @@
 namespace Drupal\headless\Controller;
 
 use Drupal\headless\HeadlessBase;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Controller routine.
@@ -18,8 +18,8 @@ class SearchController extends HeadlessBase {
   /**
    * Perform site-wide search.
    *
-   * @return \Symfony\Component\HttpFoundation\Response
-   *   Response represents an HTTP response.
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
    */
   public function query() {
     $output = $this->submitForm('\Drupal\search\Form\SearchPageForm');
@@ -27,18 +27,18 @@ class SearchController extends HeadlessBase {
 
     // Form submission success.
     if (isset($output['data'])) {
-      $status = Response::HTTP_ACCEPTED;
+      $status = JsonResponse::HTTP_ACCEPTED;
     }
 
     // Errors exist.
     elseif (isset($output['error'])) {
-      $status = Response::HTTP_BAD_REQUEST;
+      $status = JsonResponse::HTTP_BAD_REQUEST;
     }
     else {
-      $status = Response::HTTP_FORBIDDEN;
+      $status = JsonResponse::HTTP_FORBIDDEN;
     }
 
     // Send the response.
-    return new Response($this->serialize($output), $status);
+    return new JsonResponse($output, $status);
   }
 }

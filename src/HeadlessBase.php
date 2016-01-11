@@ -19,20 +19,6 @@ use Symfony\Component\Serializer\Serializer;
 class HeadlessBase implements ContainerInjectionInterface {
 
   /**
-   * Response exchange format.
-   *
-   * @var string
-   */
-  public $format = 'json';
-
-  /**
-   * Represents an HTTP request.
-   *
-   * @var \Symfony\Component\HttpFoundation\Request
-   */
-  public $serialize;
-
-  /**
    * Request stack instance.
    *
    * @var \Symfony\Component\HttpFoundation\RequestStack
@@ -78,32 +64,6 @@ class HeadlessBase implements ContainerInjectionInterface {
   }
 
   /**
-   * Serializes data in the appropriate format.
-   *
-   * @param mixed $data
-   *   Any data.
-   *
-   * @return string
-   *   Serialized data.
-   */
-  public function serialize($data) {
-    return $this->serializer->serialize($data, $this->format);
-  }
-
-  /**
-   * Decodes a string into PHP data.
-   *
-   * @param mixed $data
-   *   Any data.
-   *
-   * @return mixed
-   *   PHP data.
-   */
-  public function decode($data) {
-    return $this->serializer->decode($data, $this->format);
-  }
-
-  /**
    * Process request parameters for a given form by class name.
    *
    * @param string $class
@@ -115,7 +75,7 @@ class HeadlessBase implements ContainerInjectionInterface {
   public function submitForm($class) {
     $content = $this->request()->getContent();
     if ($content) {
-      $params = $this->decode($content, $this->format);
+      $params = $this->serializer->decode($content, 'json');
 
       // Create a new form instance; submit form values.
       $form_state = (new FormState())->setValues($params);
