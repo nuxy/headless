@@ -75,6 +75,19 @@ class HeadlessBase implements ContainerInjectionInterface {
   }
 
   /**
+   * Gets a renderable form array.
+   *
+   * @param string $class
+   *   Defines a class.
+   *
+   * @return array
+   *   Form array.
+   */
+  public function getForm($class) {
+    return \Drupal::formBuilder()->getForm($class);
+  }
+
+  /**
    * Retrieves, populates, and processes a form.
    *
    * @param string $class
@@ -122,32 +135,42 @@ class HeadlessBase implements ContainerInjectionInterface {
    *   Response represents an HTTP response in JSON format.
    */
   public function processRequest($class, $callback = NULL) {
+    $request  = $this->request();
     $response = $this->response();
 
     // Get the Request body JSON
-    $content = $this->request()->getContent();
+    $content = $request->getContent();
 
-    // Decode as array and submit the form.
+    // Decode the JSON content.
     $params = $this->serializer->decode($content, 'json');
-    $output = $this->submitForm($class, $params);
 
-    // Form submission success.
-    if (isset($output['data'])) {
+    // Submit the form.
+    if ($request->getMethod() == 'POST') {
+      $output = $this->submitForm($class, $params);
 
-      // Execute pre-process callback, if provided.
-      if (is_callable($callback)) {
-        $callback($output['data']);
+      // Success.
+      if (isset($output['data'])) {
+
+        // Execute pre-process callback, if provided.
+        if (is_callable($callback)) {
+          $callback($output['data']);
+        }
+
+        $response->setStatusCode($response::HTTP_ACCEPTED);
       }
 
-      $response->setStatusCode($response::HTTP_ACCEPTED);
+      // Errors exist.
+      elseif (isset($output['error'])) {
+        $response->setStatusCode($response::HTTP_BAD_REQUEST);
+      }
+      else {
+        $response->setStatusCode($response::HTTP_FORBIDDEN);
+      }
     }
 
-    // Errors exist.
-    elseif (isset($output['error'])) {
-      $response->setStatusCode($response::HTTP_BAD_REQUEST);
-    }
+    // Get the form.
     else {
-      $response->setStatusCode($response::HTTP_FORBIDDEN);
+      $output = $this->getForm($class);
     }
 
     // Return the response.
