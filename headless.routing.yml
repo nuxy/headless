@@ -1,3 +1,10 @@
+headless.cancel:
+  path: '/api/user/cancel'
+  defaults:
+    _controller: '\Drupal\headless\Controller\UserController::cancel'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
 headless.login:
   path: '/api/user/login'
   defaults:
@@ -12,13 +19,6 @@ headless.logout:
   requirements:
     _user_is_logged_in: 'TRUE'
 
-headless.register:
-  path: '/api/user/register'
-  defaults:
-    _controller: '\Drupal\headless\Controller\UserController::register'
-  requirements:
-    _user_is_logged_in: 'FALSE'
-
 headless.password:
   path: '/api/user/password'
   defaults:
@@ -26,12 +26,19 @@ headless.password:
   requirements:
     _user_is_logged_in: 'FALSE'
 
-headless.cancel:
-  path: '/api/user/cancel'
+headless.profile:
+  path: '/api/user/profile'
   defaults:
-    _controller: '\Drupal\headless\Controller\UserController::cancel'
+    _controller: '\Drupal\headless\Controller\UserController::profile'
   requirements:
     _user_is_logged_in: 'TRUE'
+
+headless.register:
+  path: '/api/user/register'
+  defaults:
+    _controller: '\Drupal\headless\Controller\UserController::register'
+  requirements:
+    _user_is_logged_in: 'FALSE'
 
 headless.search:
   path: '/api/search'

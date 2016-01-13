@@ -15,7 +15,7 @@ use Drupal\headless\HeadlessBase;
 class UserController extends HeadlessBase {
 
   /**
-   * Cancels user account.
+   * Cancel the User account.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
@@ -53,7 +53,7 @@ class UserController extends HeadlessBase {
   }
 
   /**
-   * Generates a unique URL for a user to login and reset their password.
+   * Generates a unique URL for a User to login and reset their password.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
@@ -72,15 +72,13 @@ class UserController extends HeadlessBase {
     return $this->processRequest('\Drupal\user\Form\RegisterForm');
   }
 
-
-
   /**
-   * Generates a unique URL for a user to login and reset their password.
+   * Update the User Profile data.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
    */
-  public function passwordReset() {
-    return $this->processRequest('\Drupal\user\Form\UserPasswordResetForm');
+  public function profile() {
+    return $this->processRequest('\Drupal\user\Form\ProfileForm');
   }
 }
