@@ -21,6 +21,6 @@ class SearchController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function search() {
-    return $this->processRequest('\Drupal\search\Form\SearchPageForm');
+    return $this->handler('\Drupal\search\Form\SearchPageForm');
   }
 }

@@ -123,7 +123,7 @@ class HeadlessBase implements ContainerInjectionInterface {
   }
 
   /**
-   * Process the client-side POST request and send response.
+   * Process the client-side GET/POST request and send response.
    *
    * @param string $class
    *   Defines a form class.
@@ -134,7 +134,7 @@ class HeadlessBase implements ContainerInjectionInterface {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
    */
-  public function processRequest($class, $callback = NULL) {
+  public function handler($class, $callback = NULL) {
     $request  = $this->request();
     $response = $this->response();
 

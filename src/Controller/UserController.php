@@ -21,7 +21,7 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function cancel() {
-    return $this->processRequest('\Drupal\user\Form\UserCancelForm');
+    return $this->handler('\Drupal\user\Form\UserCancelForm');
   }
 
   /**
@@ -31,7 +31,7 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function login() {
-    return $this->processRequest('\Drupal\user\Form\UserLoginForm', function(&$data) {
+    return $this->handler('\Drupal\user\Form\UserLoginForm', function(&$data) {
 
       // Preprocess response.
       $data = array(
@@ -59,7 +59,7 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function passwordReset() {
-    return $this->processRequest('\Drupal\user\Form\UserPasswordResetForm');
+    return $this->handler('\Drupal\user\Form\UserPasswordResetForm');
   }
 
   /**
@@ -69,7 +69,7 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function register() {
-    return $this->processRequest('\Drupal\user\Form\RegisterForm');
+    return $this->handler('\Drupal\user\Form\RegisterForm');
   }
 
   /**
@@ -79,6 +79,6 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function profile() {
-    return $this->processRequest('\Drupal\user\Form\ProfileForm');
+    return $this->handler('\Drupal\user\Form\ProfileForm');
   }
 }
