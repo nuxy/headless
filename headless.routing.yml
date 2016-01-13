@@ -43,6 +43,6 @@ headless.register:
 headless.search:
   path: '/api/search'
   defaults:
-    _controller: '\Drupal\headless\Controller\SearchController::query'
+    _controller: '\Drupal\headless\Controller\SearchController::search'
   requirements:
     _permission: 'access content'

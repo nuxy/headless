@@ -20,7 +20,7 @@ class SearchController extends HeadlessBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
    */
-  public function query() {
+  public function search() {
     return $this->processRequest('\Drupal\search\Form\SearchPageForm');
   }
 }
