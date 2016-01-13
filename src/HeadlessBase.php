@@ -138,14 +138,16 @@ class HeadlessBase implements ContainerInjectionInterface {
     $request  = $this->request();
     $response = $this->response();
 
-    // Get the Request body JSON
-    $content = $request->getContent();
+    $params = NULL;
 
-    // Decode the JSON content.
-    $params = $this->serializer->decode($content, 'json');
+    // Get the Request body and decode the JSON content.
+    $content = $request->getContent();
+    if ($content) {
+      $params = $this->serializer->decode($content, 'json');
+    }
 
     // Submit the form.
-    if ($request->getMethod() == 'POST') {
+    if ($request->getMethod() == 'POST' && $params) {
       $output = $this->submitForm($class, $params);
 
       // Success.
