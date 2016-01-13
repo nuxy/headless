@@ -8,7 +8,6 @@
 namespace Drupal\headless\Controller;
 
 use Drupal\headless\HeadlessBase;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Controller routine.
@@ -22,30 +21,13 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function login() {
-    $output = $this->submitForm('\Drupal\user\Form\UserLoginForm');
-    $status = NULL;
+    return $this->processRequest('\Drupal\user\Form\UserLoginForm', function(&$data) {
 
-    // Form submission success.
-    if (isset($output['data'])) {
-
-      // Set-up response.
-      $output['data'] = array(
+      // Preprocess response.
+      $data = array(
         'uid' => \Drupal::currentUser()->id(),
       );
-
-      $status = JsonResponse::HTTP_ACCEPTED;
-    }
-
-    // Errors exist.
-    elseif (isset($output['error'])) {
-      $status = JsonResponse::HTTP_BAD_REQUEST;
-    }
-    else {
-      $status = JsonResponse::HTTP_FORBIDDEN;
-    }
-
-    // Send the response.
-    return new JsonResponse($output, $status);
+    });
   }
 
   /**
@@ -57,7 +39,7 @@ class UserController extends HeadlessBase {
   public function logout() {
     user_logout();
 
-    return new JsonResponse(NULL, JsonResponse::HTTP_OK);
+    return $this->response();
   }
 
   /**
@@ -67,25 +49,7 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function register() {
-    $output = $this->submitForm('\Drupal\user\Form\RegisterForm');
-    $status = NULL;
-
-    // Form submission success.
-    if (isset($output['data'])) {
-      $output = NULL;
-      $status = JsonResponse::HTTP_ACCEPTED;
-    }
-
-    // Errors exist.
-    elseif (isset($output['error'])) {
-      $status = JsonResponse::HTTP_BAD_REQUEST;
-    }
-    else {
-      $status = JsonResponse::HTTP_FORBIDDEN;
-    }
-
-    // Send the response.
-    return new JsonResponse($output, $status);
+    return $this->processRequest('\Drupal\user\Form\RegisterForm');
   }
 
   /**
@@ -95,24 +59,6 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function passwordReset() {
-    $output = $this->submitForm('\Drupal\user\Form\UserPasswordResetForm');
-    $status = NULL;
-
-    // Form submission success.
-    if (isset($output['data'])) {
-      $output = NULL;
-      $status = JsonResponse::HTTP_ACCEPTED;
-    }
-
-    // Errors exist.
-    elseif (isset($output['error'])) {
-      $status = JsonResponse::HTTP_BAD_REQUEST;
-    }
-    else {
-      $status = JsonResponse::HTTP_FORBIDDEN;
-    }
-
-    // Send the response.
-    return new JsonResponse($output, $status);
+    return $this->processRequest('\Drupal\user\Form\UserPasswordResetForm');
   }
 }
