@@ -1,5 +1,10 @@
 <?php
 
+AccountForm
+AccountSettingsForm
+UserCancelForm
+ProfileForm
+
 /**
  * @file
  * Definition of Drupal\headless\Controller\UserController.
@@ -60,5 +65,15 @@ class UserController extends HeadlessBase {
    */
   public function passwordReset() {
     return $this->processRequest('\Drupal\user\Form\UserPasswordResetForm');
+  }
+
+  /**
+   * Cancels user account.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
+   */
+  public function cancel() {
+    return $this->processRequest('\Drupal\user\Form\UserCancelForm');
   }
 }

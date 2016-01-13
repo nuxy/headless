@@ -26,6 +26,13 @@ headless.password:
   requirements:
     _user_is_logged_in: 'FALSE'
 
+headless.cancel:
+  path: '/api/user/cancel'
+  defaults:
+    _controller: '\Drupal\headless\Controller\UserController::cancel'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
 headless.search:
   path: '/api/search'
   defaults:
