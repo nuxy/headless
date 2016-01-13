@@ -1,10 +1,5 @@
 <?php
 
-AccountForm
-AccountSettingsForm
-UserCancelForm
-ProfileForm
-
 /**
  * @file
  * Definition of Drupal\headless\Controller\UserController.
@@ -18,6 +13,16 @@ use Drupal\headless\HeadlessBase;
  * Controller routine.
  */
 class UserController extends HeadlessBase {
+
+  /**
+   * Cancels user account.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
+   */
+  public function cancel() {
+    return $this->processRequest('\Drupal\user\Form\UserCancelForm');
+  }
 
   /**
    * Login the User creating a new session.
@@ -48,16 +53,6 @@ class UserController extends HeadlessBase {
   }
 
   /**
-   * Register the User creating a new User account.
-   *
-   * @return \Symfony\Component\HttpFoundation\JsonResponse
-   *   Response represents an HTTP response in JSON format.
-   */
-  public function register() {
-    return $this->processRequest('\Drupal\user\Form\RegisterForm');
-  }
-
-  /**
    * Generates a unique URL for a user to login and reset their password.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
@@ -68,12 +63,24 @@ class UserController extends HeadlessBase {
   }
 
   /**
-   * Cancels user account.
+   * Register the User creating a new User account.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
    */
-  public function cancel() {
-    return $this->processRequest('\Drupal\user\Form\UserCancelForm');
+  public function register() {
+    return $this->processRequest('\Drupal\user\Form\RegisterForm');
+  }
+
+
+
+  /**
+   * Generates a unique URL for a user to login and reset their password.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
+   */
+  public function passwordReset() {
+    return $this->processRequest('\Drupal\user\Form\UserPasswordResetForm');
   }
 }
