@@ -75,19 +75,6 @@ class HeadlessBase implements ContainerInjectionInterface {
   }
 
   /**
-   * Gets a renderable form array.
-   *
-   * @param string $class
-   *   Defines a class.
-   *
-   * @return array
-   *   Form array.
-   */
-  public function getForm($class) {
-    return \Drupal::formBuilder()->getForm($class);
-  }
-
-  /**
    * Retrieves, populates, and processes a form.
    *
    * @param string $class
@@ -123,7 +110,7 @@ class HeadlessBase implements ContainerInjectionInterface {
   }
 
   /**
-   * Process the client-side GET/POST request and send response.
+   * Process the client-side request and send response.
    *
    * @param string $class
    *   Defines a form class.
@@ -135,9 +122,10 @@ class HeadlessBase implements ContainerInjectionInterface {
    *   Response represents an HTTP response in JSON format.
    */
   public function handler($class, $callback = NULL) {
-    $request  = $this->request();
     $response = $this->response();
+    $request  = $this->request();
 
+    $output = array();
     $params = NULL;
 
     // Get the Request body and decode the JSON content.
@@ -168,11 +156,6 @@ class HeadlessBase implements ContainerInjectionInterface {
       else {
         $response->setStatusCode($response::HTTP_FORBIDDEN);
       }
-    }
-
-    // Get the form.
-    else {
-      $output = $this->getForm($class);
     }
 
     // Return the response.
