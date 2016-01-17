@@ -69,7 +69,7 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function register() {
-    return $this->handler('\Drupal\user\Form\RegisterForm');
+    return $this->handler('\Drupal\user\RegisterForm');
   }
 
   /**
@@ -79,6 +79,6 @@ class UserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function profile() {
-    return $this->handler('\Drupal\user\Form\ProfileForm');
+    return $this->handler('\Drupal\user\ProfileForm');
   }
 }
