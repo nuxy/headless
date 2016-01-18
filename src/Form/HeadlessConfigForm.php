@@ -107,7 +107,9 @@ class HeadlessConfigForm extends ConfigFormBase {
     }
 
     if ($routing_path[0] == '/') {
-      $form_state->setErrorByName('routing_path', $this->t("The path '%path' cannot start with a slash.", ['%path' => $routing_path]));
+      $form_state->setErrorByName('routing_path',
+        $this->t("The path '%path' cannot start with a slash.", array('%path' => $routing_path))
+      );
     }
 
     if (!UrlHelper::isValid($routing_path)) {
