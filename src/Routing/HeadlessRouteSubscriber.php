@@ -54,4 +54,3 @@ class HeadlessRouteSubscriber extends RouteSubscriberBase {
     }
   }
 }
-?>
