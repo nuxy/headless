@@ -1,6 +1,6 @@
 name: Headless
 type: module
-description: Exposes Drupal user operations as routes that support the JSON exchange format.
+description: Exposes Drupal 8 user operations as routes that support the JSON exchange format.
 core: 8.x
 package: Web services
 configure: headless.config
