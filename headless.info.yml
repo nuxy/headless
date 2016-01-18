@@ -3,5 +3,6 @@ type: module
 description: Exposes Drupal user operations as routes that support the JSON exchange format.
 core: 8.x
 package: Web services
+configure: headless.config
 dependencies:
   - cors
