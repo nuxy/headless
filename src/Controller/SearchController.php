@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of Drupal\headless\Controller\SearchController.
+ * Contains \Drupal\headless\Controller\SearchController.
  */
 
 namespace Drupal\headless\Controller;

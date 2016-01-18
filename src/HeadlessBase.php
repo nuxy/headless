@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of Drupal\headless\Controller\HeadlessBase
+ * Contains Drupal\headless\Controller\HeadlessBase.
  */
 
 namespace Drupal\headless;
@@ -34,13 +34,13 @@ class HeadlessBase implements ContainerInjectionInterface {
   private $serializer;
 
   /**
-   * General constructor.
+   * Constructs a \Drupal\headless\Controller\HeadlessBase object.
    *
-   * @param RequestStack $requestStack
+   * @param RequestStack $request_stack
    * @param Serializer   $serializer
    */
-  public function __construct(RequestStack $requestStack, Serializer $serializer) {
-    $this->requestStack = $requestStack;
+  public function __construct(RequestStack $request_stack, Serializer $serializer) {
+    $this->requestStack = $request_stack;
     $this->serializer   = $serializer;
   }
 

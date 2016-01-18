@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of Drupal\headless\Controller\UserController.
+ * Contains \Drupal\headless\Controller\UserController.
  */
 
 namespace Drupal\headless\Controller;
