@@ -77,7 +77,7 @@ class HeadlessConfigForm extends ConfigFormBase {
 
     $routing_path = $config->get('routing_path');
     if (empty($routing_path)) {
-      $routing_path = 'api';
+      $routing_path = 'headless';
     }
 
     $form['routing']['routing_path'] = array(
@@ -103,7 +103,7 @@ class HeadlessConfigForm extends ConfigFormBase {
       $form_state->setValueForElement($form['routing']['routing_path'], $routing_path);
     }
     else {
-      $form_state->setValueForElement($form['routing']['routing_path'], '/api');
+      $form_state->setValueForElement($form['routing']['routing_path'], '/headless');
     }
 
     if ($routing_path[0] == '/') {

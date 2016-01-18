@@ -6,49 +6,49 @@ headless.config:
     _permission: 'administer site configuration'
 
 headless.cancel:
-  path: '/api/user/cancel'
+  path: '/headless/user/cancel'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::cancel'
   requirements:
     _user_is_logged_in: 'TRUE'
 
 headless.login:
-  path: '/api/user/login'
+  path: '/headless/user/login'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::login'
   requirements:
     _user_is_logged_in: 'FALSE'
 
 headless.logout:
-  path: '/api/user/logout'
+  path: '/headless/user/logout'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::logout'
   requirements:
     _user_is_logged_in: 'TRUE'
 
 headless.password:
-  path: '/api/user/password'
+  path: '/headless/user/password'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::passwordReset'
   requirements:
     _user_is_logged_in: 'FALSE'
 
 headless.profile:
-  path: '/api/user/profile'
+  path: '/headless/user/profile'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::profile'
   requirements:
     _user_is_logged_in: 'TRUE'
 
 headless.register:
-  path: '/api/user/register'
+  path: '/headless/user/register'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::register'
   requirements:
     _user_is_logged_in: 'FALSE'
 
 headless.search:
-  path: '/api/search'
+  path: '/headless/search'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessSearchController::search'
   requirements:
