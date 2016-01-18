@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\headless\Controller\UserController.
+ * Contains \Drupal\headless\Controller\HeadlessUserController.
  */
 
 namespace Drupal\headless\Controller;
@@ -12,7 +12,7 @@ use Drupal\headless\HeadlessBase;
 /**
  * Controller routine.
  */
-class UserController extends HeadlessBase {
+class HeadlessUserController extends HeadlessBase {
 
   /**
    * Cancel the User account.

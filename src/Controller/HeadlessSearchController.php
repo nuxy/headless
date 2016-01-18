@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\headless\Controller\SearchController.
+ * Contains \Drupal\headless\Controller\HeaderSearchController.
  */
 
 namespace Drupal\headless\Controller;
@@ -12,7 +12,7 @@ use Drupal\headless\HeadlessBase;
 /**
  * Controller routine.
  */
-class SearchController extends HeadlessBase {
+class HeadlessSearchController extends HeadlessBase {
 
   /**
    * Perform site-wide search.
