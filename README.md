@@ -2,6 +2,15 @@
 
 Exposes Drupal 8 user operations as routes that support the JSON exchange format.
 
+## Installation
+
+- Download the latest [release](https://github.com/nuxy/headless/tags).
+- Extract the contents of the _.zip_ into: `<drupal root>/modules/contrib/`
+
+## Configuration
+
+Once the module has been installed/enabled, you can navigate to `admin/config/services/headless` (Configuration > Web Services > Headless in the Admin panel) to configure the publicly accessible Routing Path.
+
 ## Dependencies
 
 - [CORS](https://github.com/piyuesh23/cors)
