@@ -13,7 +13,7 @@ Once the module has been installed/enabled, you can navigate to `admin/config/se
 
 ## Dependencies
 
-- [CORS](https://github.com/piyuesh23/cors)
+- [CORS](https://github.com/piyuesh23/cors) (Optional, but recommended)
 
 ## License and Warranty
 
