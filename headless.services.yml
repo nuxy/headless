@@ -1,0 +1,6 @@
+services:
+  headless.route_subscriber:
+    class: Drupal\headless\Routing\HeadlessRouteSubscriber
+    arguments: ['@config.factory']
+    tags:
+      - { name: event_subscriber }
