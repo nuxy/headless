@@ -130,8 +130,11 @@ class HeadlessBase implements ContainerInjectionInterface {
 
     // Get the Request body and decode the JSON content.
     $content = $request->getContent();
-    if ($content) {
+    if ($this->isJson($content)) {
       $params = $this->serializer->decode($content, 'json');
+    }
+    else {
+      $response->setStatusCode($response::HTTP_BAD_REQUEST);
     }
 
     // Submit the form.
@@ -160,5 +163,18 @@ class HeadlessBase implements ContainerInjectionInterface {
 
     // Return the response.
     return $response->setData($output);
+  }
+
+  /**
+   * Check string is valid JSON.
+   *
+   * @param string $string
+   *   JSON in a tring format.
+   *
+   * @return bool
+   */
+  function isJson($string) {
+    json_decode($string);
+    return (json_last_error() == JSON_ERROR_NONE);
   }
 }
