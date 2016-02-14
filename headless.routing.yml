@@ -46,10 +46,3 @@ headless.register:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::register'
   requirements:
     _user_is_logged_in: 'FALSE'
-
-headless.search:
-  path: '/headless/search'
-  defaults:
-    _controller: '\Drupal\headless\Controller\HeadlessSearchController::search'
-  requirements:
-    _permission: 'access content'
