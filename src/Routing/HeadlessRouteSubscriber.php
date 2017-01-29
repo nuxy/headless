@@ -43,7 +43,7 @@ class HeadlessRouteSubscriber extends RouteSubscriberBase {
       // Filter Headless public routes.
       if (substr($key, 0, 9) === 'headless.' && $key != 'headless.config') {
         $old_path = $route->getPath();
-        $get_path = preg_replace('/^\/(headless|' . $routing_path . ')/', '', $old_path);
+        $get_path = preg_replace('/^\/(headless|' . str_replace('/', '\/', $routing_path) . ')/', '', $old_path);
         $new_path = '/' . $routing_path . $get_path;
 
         // Update path if changed.
