@@ -15,7 +15,7 @@ use Drupal\Core\Routing\RequestContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Headless configuration form.
+ * Defines a form that configures Headless settings.
  */
 class HeadlessConfigForm extends ConfigFormBase {
 
@@ -27,11 +27,11 @@ class HeadlessConfigForm extends ConfigFormBase {
   protected $requestContext;
 
   /**
-   * Constructs a \Drupal\headless\Form\HeadlessConfigForm object.
+   * Constructs a HeadlessConfigForm object.
    *
-   * @param ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory.
-   * @param RequestContext $request_context
+   * @param \Drupal\Core\Routing\RequestContext $request_context
    *   The router request context.
    */
   public function __construct(ConfigFactoryInterface $config_factory, RequestContext $request_context) {
@@ -66,7 +66,7 @@ class HeadlessConfigForm extends ConfigFormBase {
     $form['routing'] = array(
       '#type' => 'details',
       '#title' => t('Routing'),
-      '#description' => t('This is the publicly accessible path to User operation routes.'),
+      '#description' => t('The publicly accessible path to User operation routes. This must be a unique path, currently not in use.'),
       '#open' => TRUE,
     );
 
@@ -79,6 +79,39 @@ class HeadlessConfigForm extends ConfigFormBase {
       '#required' => TRUE,
       '#attributes' => array('placeholder' => 'service'),
       '#field_prefix' => $this->requestContext->getCompleteBaseUrl() . '/',
+    );
+
+    $form['user_login'] = array(
+      '#type' => 'details',
+      '#title' => t('User Login'),
+      '#description' => t('Field values returned on User Login success as part of the JSON response.'),
+      '#open' => TRUE,
+    );
+
+    // Get fields names.
+    $user_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('user', 'user');
+
+    $user_fields = array();
+    foreach ($user_definitions as $field_name => $field_definition) {
+      $user_fields[$field_name] = $field_name;
+    }
+
+    $remove = (array) $config->get('user_fields_remove');
+
+    $filtered = array_filter($user_fields,
+      function ($key) use ($remove) {
+        return (!in_array($key, $remove));
+      },
+      ARRAY_FILTER_USE_KEY
+    );
+
+    $form['user_login']['user_fields'] = array(
+      '#type' => 'select',
+      '#title' => t('Fields'),
+      '#description' => t('Supports multiple values using [CTRL].'),
+      '#default_value' => $config->get('user_fields'),
+      '#options' => $filtered,
+      '#multiple' => TRUE,
     );
 
     return parent::buildForm($form, $form_state);
@@ -116,6 +149,7 @@ class HeadlessConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->config('headless.config');
     $config->set('routing_path', $form_state->getValue('routing_path'));
+    $config->set('user_fields',  $form_state->getValue('user_fields'));
     $config->save();
 
     drupal_set_message(t('Configuration saved successfully!'), 'status', FALSE);

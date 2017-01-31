@@ -7,6 +7,7 @@
 
 namespace Drupal\headless;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\FormState;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -18,6 +19,13 @@ use Symfony\Component\Serializer\Serializer;
  * Headless utility base class.
  */
 class HeadlessBase implements ContainerInjectionInterface {
+
+  /**
+   * The router request context.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * Request stack instance.
@@ -34,14 +42,19 @@ class HeadlessBase implements ContainerInjectionInterface {
   private $serializer;
 
   /**
-   * Constructs a \Drupal\headless\Controller\HeadlessBase object.
+   * Constructs a HeadlessBase object.
    *
-   * @param RequestStack $request_stack
-   * @param Serializer   $serializer
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration factory.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   Request stack instance.
+   * @param \Symfony\Component\Serializer\Serializer $serializer
+   *   Serializer instance.
    */
-  public function __construct(RequestStack $request_stack, Serializer $serializer) {
-    $this->requestStack = $request_stack;
-    $this->serializer   = $serializer;
+  public function __construct(ConfigFactoryInterface $config_factory, RequestStack $request_stack, Serializer $serializer) {
+    $this->configFactory = $config_factory;
+    $this->requestStack  = $request_stack;
+    $this->serializer    = $serializer;
   }
 
   /**
@@ -49,6 +62,7 @@ class HeadlessBase implements ContainerInjectionInterface {
    */
   public static function create(ContainerInterface $container) {
     return new static(
+      $container->get('config.factory'),
       $container->get('request_stack'),
       $container->get('serializer')
     );
@@ -79,7 +93,6 @@ class HeadlessBase implements ContainerInjectionInterface {
    *
    * @param string $class
    *   Defines a class.
-   *
    * @param array $params
    *  HTTP request parameters.
    *
@@ -114,7 +127,6 @@ class HeadlessBase implements ContainerInjectionInterface {
    *
    * @param string $class
    *   Defines a form class.
-   *
    * @param callable $callback
    *   Defines a callback function.
    *

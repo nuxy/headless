@@ -32,11 +32,17 @@ class HeadlessUserController extends HeadlessBase {
    */
   public function login() {
     return $this->handler('\Drupal\user\Form\UserLoginForm', function(&$data) {
+      $config = $this->configFactory->get('headless.config');
 
-      // Preprocess response.
-      $data = array(
-        'uid' => \Drupal::currentUser()->id(),
-      );
+      // Get the current user data.
+      $storage = \Drupal::entityTypeManager()->getStorage('user');
+
+      $user = $storage->load(\Drupal::currentUser()->id());
+
+      // Prepare the JSON response.
+      foreach ($config->get('user_fields') as $field_name) {
+        $data[$field_name] = $user->get($field_name)->value;
+      }
     });
   }
 
