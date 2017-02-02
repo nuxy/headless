@@ -40,6 +40,7 @@ class HeadlessUserController extends HeadlessBase {
       $user = $storage->load(\Drupal::currentUser()->id());
 
       // Prepare the JSON response.
+      $data = array();
       foreach ($config->get('user_fields') as $field_name) {
         $data[$field_name] = $user->get($field_name)->value;
       }
