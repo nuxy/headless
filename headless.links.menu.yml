@@ -1,5 +1,5 @@
 headless.config:
   title: 'Headless'
-  description: 'Configure Headless routing.'
+  description: 'Configure Headless routing and User Login response.'
   route_name: headless.config
   parent: system.admin_config_services
