@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\headless\Controller\HeadlessBase.
+ * Contains Drupal\headless\HeadlessBase.
  */
 
 namespace Drupal\headless;
