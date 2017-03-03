@@ -1,6 +1,6 @@
 # Headless
 
-Exposes Drupal 8 user operations as routes that support the JSON exchange format.
+Expose Drupal 8 user operations as routes that support the JSON exchange format.
 
 ## Features
 
@@ -72,6 +72,57 @@ $.ajax({
   },
   xhrFields: {
     withCredentials: true
+  }
+});
+```
+
+### User Register
+
+Using the AngularJS [$http](https://docs.angularjs.org/api/ng/service/$http) service.
+
+```
+$http({
+  method: 'POST',
+  url:    '/headless/user/register',
+  cache:  false,
+  data: {
+    mail: '<mail>',
+    name: '<name>',
+    pass: '<pass>'
+  }
+})
+.then(
+  function successCallback(response) {},
+
+  // handle errors
+  function errorCallback(response) {
+    if (response.status === 400) {}
+    if (response.status === 500) {}
+  }
+);
+```
+
+Using the jQuery [$ajax](http://api.jquery.com/jquery.ajax) method.
+
+```
+$.ajax({
+  type: 'POST',
+  url: '/headless/user/register',
+  dataType: 'json',
+  data: {
+    mail: '<mail>',
+    name: '<name>',
+    pass: '<pass>'
+  },
+  cache: false,
+  statusCode: {
+
+    // login success
+    202: function(data) {},
+
+    // handle errors
+    400: function() {},
+    500: function() {}
   }
 });
 ```
