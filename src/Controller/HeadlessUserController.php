@@ -68,7 +68,7 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function passwordReset() {
-    return $this->handler('\Drupal\user\Form\UserPasswordResetForm');
+    return $this->process('\Drupal\user\Form\UserPasswordResetForm');
   }
 
   /**
@@ -78,7 +78,7 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function profile() {
-    return $this->_handler('profile');
+    return $this->process('profile');
   }
 
   /**
@@ -88,7 +88,7 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function register() {
-    return $this->_handler('register');
+    return $this->process('register');
   }
 
   /**
@@ -102,7 +102,7 @@ class HeadlessUserController extends HeadlessBase {
    *
    * @see \Drupal\user\Entity\User
    */
-  private function _handler($name) {
+  private function process($name) {
     $entity = \Drupal::entityTypeManager()->getStorage('user')->create(array());
 
     $form = \Drupal::entityTypeManager()
