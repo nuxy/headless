@@ -91,20 +91,20 @@ class HeadlessBase implements ContainerInjectionInterface {
   /**
    * Retrieves, populates, and processes a form.
    *
-   * @param string $class
-   *   Defines a class.
+   * @param class | \Drupal\Core\Form\FormInterface $form_arg
+   *   The name (or instance) of a class that implements \Drupal\Core\Form\FormInterface
    * @param array $params
-   *  HTTP request parameters.
+   *   HTTP request parameters.
    *
    * @return mixed
    *   Form values or errors | undefined
    */
-  public function submitForm($class, $params) {
+  public function submitForm($form_arg, $params) {
 
     // Create FormState instance, set values, and submit.
     $form_state = (new FormState())->setValues($params);
 
-    \Drupal::formBuilder()->submitForm($class, $form_state);
+    \Drupal::formBuilder()->submitForm($form_arg, $form_state);
 
     if ($form_state->hasAnyErrors()) {
 
@@ -114,10 +114,16 @@ class HeadlessBase implements ContainerInjectionInterface {
       );
     }
     else {
+      $values = $form_state->getValues();
+
+      // Save the form values, where applicable.
+      if (!is_string($form_arg)) {
+        $form_arg->save($values, $form_state);
+      }
 
       // Returns the submitted and sanitized form values.
       return array(
-        'data' => $form_state->getValues(),
+        'data' => $values,
       );
     }
   }
@@ -125,15 +131,15 @@ class HeadlessBase implements ContainerInjectionInterface {
   /**
    * Process the client-side request and send response.
    *
-   * @param string $class
-   *   Defines a form class.
+   * @param class | \Drupal\Core\Form\FormInterface $form_arg
+   *   The name (or instance) of a class that implements \Drupal\Core\Form\FormInterface
    * @param callable $callback
    *   Defines a callback function.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
    */
-  public function handler($class, $callback = NULL) {
+  public function handler($form_arg, $callback = NULL) {
     $response = $this->response();
     $request  = $this->request();
 
@@ -151,7 +157,7 @@ class HeadlessBase implements ContainerInjectionInterface {
 
     // Submit the form.
     if ($request->getMethod() == 'POST' && $params) {
-      $output = $this->submitForm($class, $params);
+      $output = $this->submitForm($form_arg, $params);
 
       // Success.
       if (isset($output['data'])) {

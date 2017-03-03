@@ -35,7 +35,8 @@ class HeadlessUserController extends HeadlessBase {
       $config = $this->configFactory->get('headless.config');
 
       // Get the current user data.
-      $storage = \Drupal::entityTypeManager()->getStorage('user');
+      $storage = \Drupal::entityTypeManager()
+        ->getStorage('user');
 
       $user = $storage->load(\Drupal::currentUser()->id());
 
@@ -56,6 +57,7 @@ class HeadlessUserController extends HeadlessBase {
   public function logout() {
     user_logout();
 
+    // Send the response.
     return $this->response();
   }
 
@@ -70,22 +72,47 @@ class HeadlessUserController extends HeadlessBase {
   }
 
   /**
-   * Register the User creating a new User account.
-   *
-   * @return \Symfony\Component\HttpFoundation\JsonResponse
-   *   Response represents an HTTP response in JSON format.
-   */
-  public function register() {
-    return $this->handler('\Drupal\user\RegisterForm');
-  }
-
-  /**
    * Update the User Profile data.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
    */
   public function profile() {
-    return $this->handler('\Drupal\user\ProfileForm');
+    return $this->_handler('profile');
+  }
+
+  /**
+   * Register the User creating a new User account.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
+   */
+  public function register() {
+    return $this->_handler('register');
+  }
+
+  /**
+   * Handle requests for ContentEntityForm form variants.
+   *
+   * @param string $name profile | register
+   *   ContentEntityType form handler name.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
+   *
+   * @see \Drupal\user\Entity\User
+   */
+  private function _handler($name) {
+    $entity = \Drupal::entityTypeManager()->getStorage('user')->create(array());
+
+    $form = \Drupal::entityTypeManager()
+      ->getFormObject('user', $name)
+      ->setEntity($entity);
+
+    return $this->handler($form, function(&$data) {
+
+      // Return nothing.
+      $data = NULL;
+    });
   }
 }
