@@ -191,7 +191,7 @@ class HeadlessBase implements ContainerInjectionInterface {
    *
    * @return bool
    */
-  function isJson($string) {
+  private function isJson($string) {
     json_decode($string);
     return (json_last_error() == JSON_ERROR_NONE);
   }
