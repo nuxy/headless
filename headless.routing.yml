@@ -20,7 +20,7 @@ headless.login:
     _user_is_logged_in: 'FALSE'
 
 headless.login_status:
-  path: '/headless/login/status'
+  path: '/headless/user/login/status'
   defaults:
     _controller: '\Drupal\headless\Controller\HeadlessUserController::loginStatus'
   requirements:
