@@ -19,6 +19,13 @@ headless.login:
   requirements:
     _user_is_logged_in: 'FALSE'
 
+headless.login_status:
+  path: '/headless/login/status'
+  defaults:
+    _controller: '\Drupal\headless\Controller\HeadlessUserController::loginStatus'
+  requirements:
+    _access: 'TRUE'
+
 headless.logout:
   path: '/headless/user/logout'
   defaults:

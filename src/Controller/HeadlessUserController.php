@@ -49,6 +49,16 @@ class HeadlessUserController extends HeadlessBase {
   }
 
   /**
+   * Checks whether an active User session exists.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
+   */
+  public function loginStatus() {
+    return $this->response(array('active' => \Drupal::currentUser()->isAuthenticated()));
+  }
+
+  /**
    * Logout the User removing the session data.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
