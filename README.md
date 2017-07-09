@@ -5,6 +5,7 @@ Expose Drupal 8 user operations as routes that support the JSON exchange format.
 ## Features
 
 - A configurable path that provides User Login, Register, Password Reset, and Account form handlers.
+- Post-process hooks for customizing JSON response data on request success.
 - Support for `application/json` Content-Type for POST requests and related responses.
 - Easy integration into [AngularJS](https://angularjs.org), [EmberJS](http://emberjs.com), or [jQuery](https://jquery.com) applications - No custom headers or tokens required.
 
@@ -21,7 +22,23 @@ Once the module has been installed/enabled, you can navigate to `admin/config/se
 
 - [CORS](https://github.com/piyuesh23/cors) _(Optional, but recommended)_
 
-## Examples
+## Hooks
+
+As of current, the `FormState` instance is returned that includes the `form_id` and field values.  In cases where this in NOT preferred you can override the response data using the following hook:
+
+```
+function hook_headless_data_alter(array &$data) {
+
+  // Preprocess Login responses.
+  if ($data['form_id'] == 'user_login_form') {
+
+    // Return nothing.
+    $data = NULL;
+  }
+}
+```
+
+## JavaScript Examples
 
 ### User Login
 
