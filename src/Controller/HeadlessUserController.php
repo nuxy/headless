@@ -21,7 +21,9 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function cancel() {
-    return $this->handler('\Drupal\user\Form\UserCancelForm');
+    return $this->handler('\Drupal\user\Form\UserCancelForm', function(&$data) {
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
+    });
   }
 
   /**
@@ -32,20 +34,18 @@ class HeadlessUserController extends HeadlessBase {
    */
   public function login() {
     return $this->handler('\Drupal\user\Form\UserLoginForm', function(&$data) {
-      $config = $this->configFactory->get('headless.config');
-
-      // Get the current user data.
-      $storage = \Drupal::entityTypeManager()
-        ->getStorage('user');
-
-      $user = $storage->load(\Drupal::currentUser()->id());
-
-      // Prepare the JSON response.
-      $data = array();
-      foreach ($config->get('user_fields') as $field_name) {
-        $data[$field_name] = $user->get($field_name)->value;
-      }
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
     });
+  }
+
+  /**
+   * Checks whether an active User session exists.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Response represents an HTTP response in JSON format.
+   */
+  public function loginStatus() {
+    return $this->response(array('active' => \Drupal::currentUser()->isAuthenticated()));
   }
 
   /**
@@ -68,7 +68,9 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function passwordReset() {
-    return $this->process('\Drupal\user\Form\UserPasswordResetForm');
+    return $this->handler('\Drupal\user\Form\UserPasswordResetForm', function(&$data) {
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
+    });
   }
 
   /**
@@ -110,9 +112,7 @@ class HeadlessUserController extends HeadlessBase {
       ->setEntity($entity);
 
     return $this->handler($form, function(&$data) {
-
-      // Return nothing.
-      $data = NULL;
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
     });
   }
 }

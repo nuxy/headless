@@ -23,3 +23,33 @@ function headless_help($route_name, RouteMatchInterface $route_match) {
     default:
   }
 }
+
+/**
+ * Implements hook_headless_data_alter().
+ */
+function headless_headless_data_alter(array &$data) {
+  $config = \Drupal::config('headless.config');
+
+  //
+  // ATTENTION DEVELOPERS
+  //
+  // The following code should be relocated to a custom module to be
+  // invoked as a hook. This, including the HeadlessConfigForm will
+  // be removed a future release so you should not rely on it.
+  //
+
+  if ($data['form_id'] == 'user_login_form') {
+
+    // Get the current user data.
+    $storage = \Drupal::entityTypeManager()
+      ->getStorage('user');
+
+    $user = $storage->load(\Drupal::currentUser()->id());
+
+    // Prepare new JSON response.
+    $data = array();
+    foreach ($config->get('user_fields') as $field_name) {
+      $data[$field_name] = $user->get($field_name)->value;
+    }
+  }
+}
