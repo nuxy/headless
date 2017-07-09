@@ -81,7 +81,14 @@ class HeadlessConfigForm extends ConfigFormBase {
       '#field_prefix' => $this->requestContext->getCompleteBaseUrl() . '/',
     );
 
-    $form['user_login'] = array(
+    //
+    // ATTENTION DEVELOPERS
+    //
+    // The following code will be *removed* in a future release so you
+    // should not rely on it. Add this to your custom module instead.
+    //
+
+    /*$form['user_login'] = array(
       '#type' => 'details',
       '#title' => t('User Login'),
       '#description' => t('Field values returned on User Login success as part of the JSON response.'),
@@ -112,7 +119,7 @@ class HeadlessConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('user_fields'),
       '#options' => $filtered,
       '#multiple' => TRUE,
-    );
+    );*/
 
     return parent::buildForm($form, $form_state);
   }
@@ -149,7 +156,7 @@ class HeadlessConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->config('headless.config');
     $config->set('routing_path', $form_state->getValue('routing_path'));
-    $config->set('user_fields',  $form_state->getValue('user_fields'));
+    //$config->set('user_fields',  $form_state->getValue('user_fields'));
     $config->save();
 
     drupal_set_message(t('Configuration saved successfully!'), 'status', FALSE);
