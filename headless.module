@@ -27,15 +27,16 @@ function headless_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_headless_data_alter().
  */
-function headless_headless_data_alter(array &$data) {
+/*function headless_headless_data_alter(&$data) {
   $config = \Drupal::config('headless.config');
 
   //
   // ATTENTION DEVELOPERS
   //
   // The following code should be relocated to a custom module to be
-  // invoked as a hook. This, including the HeadlessConfigForm will
-  // be removed a future release so you should not rely on it.
+  // invoked as a hook. This, including the related HeadlessConfigForm
+  // settings will be *removed* in a future release so you should not
+  // rely on it. Add this to your custom module instead.
   //
 
   if ($data['form_id'] == 'user_login_form') {
@@ -52,4 +53,4 @@ function headless_headless_data_alter(array &$data) {
       $data[$field_name] = $user->get($field_name)->value;
     }
   }
-}
+}*/
