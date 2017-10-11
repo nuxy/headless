@@ -146,7 +146,7 @@ $.ajax({
 
 ## Contributions
 
-If you find any bugs, or there is a feature you want to add, please submit a pull-request with your changes.  Note: Before committing your code please ensure that you are following the Drupal coding standards.
+If you fix a bug, or have a code you want to contribute, please send a pull-request with your changes. (Note: Before committing your code please ensure that you are following the Drupal coding standards)
 
 You can check your code by running the following command:
 
