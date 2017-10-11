@@ -1,6 +1,0 @@
-user_fields_remove:
-  - access
-  - init
-  - login
-  - name
-  - pass

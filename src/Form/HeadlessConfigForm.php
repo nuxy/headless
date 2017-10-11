@@ -81,47 +81,6 @@ class HeadlessConfigForm extends ConfigFormBase {
       '#field_prefix' => $this->requestContext->getCompleteBaseUrl() . '/',
     );
 
-    //
-    // ATTENTION DEVELOPERS
-    //
-    // The following code will be *removed* in a future release so you
-    // should not rely on it. Add this to your custom module instead.
-    //
-
-    /*$form['user_login'] = array(
-      '#type' => 'details',
-      '#title' => t('User Login'),
-      '#description' => t('Field values returned on User Login success as part of the JSON response.'),
-      '#open' => TRUE,
-    );
-
-    // Get fields names.
-    $user_definitions = \Drupal::service('entity_field.manager')
-      ->getFieldDefinitions('user', 'user');
-
-    $user_fields = array();
-    foreach ($user_definitions as $field_name => $field_definition) {
-      $user_fields[$field_name] = $field_name;
-    }
-
-    $remove = (array) $config->get('user_fields_remove');
-
-    $filtered = array_filter($user_fields,
-      function ($key) use ($remove) {
-        return (!in_array($key, $remove));
-      },
-      ARRAY_FILTER_USE_KEY
-    );
-
-    $form['user_login']['user_fields'] = array(
-      '#type' => 'select',
-      '#title' => t('Fields'),
-      '#description' => t('Supports multiple values using [CTRL].'),
-      '#default_value' => $config->get('user_fields'),
-      '#options' => $filtered,
-      '#multiple' => TRUE,
-    );*/
-
     return parent::buildForm($form, $form_state);
   }
 
@@ -157,7 +116,6 @@ class HeadlessConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->config('headless.config');
     $config->set('routing_path', $form_state->getValue('routing_path'));
-    //$config->set('user_fields',  $form_state->getValue('user_fields'));
     $config->save();
 
     drupal_set_message(t('Configuration saved successfully!'), 'status', FALSE);
