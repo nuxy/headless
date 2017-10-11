@@ -144,6 +144,14 @@ $.ajax({
 });
 ```
 
+## Contributions
+
+If you find any bugs, or there is a feature you want to add, please submit a pull-request with your changes.  Note: Before committing your code please ensure that you are following the Drupal coding standards.
+
+You can check your code by running the following command:
+
+    $ phpcs --standard=./vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml src
+
 ## License and Warranty
 
 This package is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.

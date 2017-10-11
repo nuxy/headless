@@ -3,7 +3,6 @@
     "description": "Expose Drupal 8 user operations as routes that support the JSON exchange format.",
     "type": "project",
     "require-dev": {
-        "drupal/coder": "^8.2"
     },
     "license": "MIT",
     "authors": [
@@ -11,5 +10,8 @@
             "name": "Marc S. Brooks",
             "email": "devel@mbrooks.info"
         }
-    ]
+    ],
+    "require": {
+        "drupal/coder": "^8.2"
+    }
 }

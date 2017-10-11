@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Serializer;
 class HeadlessBase implements ContainerInjectionInterface {
 
   /**
-   * The router request context.
+   * The configuration factory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
@@ -58,7 +58,7 @@ class HeadlessBase implements ContainerInjectionInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
@@ -92,14 +92,14 @@ class HeadlessBase implements ContainerInjectionInterface {
    * Retrieves, populates, and processes a form.
    *
    * @param class | \Drupal\Core\Form\FormInterface $form_arg
-   *   The name (or instance) of a class that implements \Drupal\Core\Form\FormInterface
+   *   The name (or class) that implements \Drupal\Core\Form\FormInterface.
    * @param array $params
    *   HTTP request parameters.
    *
    * @return mixed
    *   Form values or errors | undefined
    */
-  public function submitForm($form_arg, $params) {
+  public function submitForm($form_arg, array $params) {
 
     // Create FormState instance, set values, and submit.
     $form_state = (new FormState())->setValues($params);
@@ -132,14 +132,14 @@ class HeadlessBase implements ContainerInjectionInterface {
    * Process the client-side request and send response.
    *
    * @param class | \Drupal\Core\Form\FormInterface $form_arg
-   *   The name (or instance) of a class that implements \Drupal\Core\Form\FormInterface
+   *   The name (or class) that implements \Drupal\Core\Form\FormInterface.
    * @param callable $callback
    *   Defines a callback function.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.
    */
-  public function handler($form_arg, $callback = NULL) {
+  public function handler($form_arg, callable $callback = NULL) {
     $response = $this->response();
     $request  = $this->request();
 
@@ -190,6 +190,7 @@ class HeadlessBase implements ContainerInjectionInterface {
    *   JSON in a tring format.
    *
    * @return bool
+   *   TRUE | FALSE
    */
   private function isJson($string) {
     json_decode($string);

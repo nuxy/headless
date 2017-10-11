@@ -26,6 +26,7 @@ class HeadlessRouteSubscriber extends RouteSubscriberBase {
    * Constructs a \Drupal\headless\Routing\HeadlessRoutes object.
    *
    * @param ConfigFactoryInterface $config_factory
+   *   The ConfigFactory instance.
    */
   public function __construct(ConfigFactoryInterface $config_factory) {
     $this->configFactory = $config_factory;

@@ -96,8 +96,8 @@ class HeadlessUserController extends HeadlessBase {
   /**
    * Handle requests for ContentEntityForm form variants.
    *
-   * @param string $name profile | register
-   *   ContentEntityType form handler name.
+   * @param string $name
+   *   ContentEntityType form handler name (profile|register).
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Response represents an HTTP response in JSON format.

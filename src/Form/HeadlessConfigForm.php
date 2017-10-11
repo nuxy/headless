@@ -96,7 +96,8 @@ class HeadlessConfigForm extends ConfigFormBase {
     );
 
     // Get fields names.
-    $user_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('user', 'user');
+    $user_definitions = \Drupal::service('entity_field.manager')
+      ->getFieldDefinitions('user', 'user');
 
     $user_fields = array();
     foreach ($user_definitions as $field_name => $field_definition) {
