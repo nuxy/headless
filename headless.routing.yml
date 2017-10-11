@@ -2,6 +2,7 @@ headless.config:
   path: '/admin/config/services/headless'
   defaults:
     _form: '\Drupal\headless\Form\HeadlessConfigForm'
+    _title: 'Headless'
   requirements:
     _permission: 'administer site configuration'
 
