@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\headless\Controller\HeadlessUserController.
- */
-
 namespace Drupal\headless\Controller;
 
 use Drupal\headless\HeadlessBase;
@@ -21,8 +16,8 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function cancel() {
-    return $this->handler('\Drupal\user\Form\UserCancelForm', function(&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
+    return $this->handler('\Drupal\user\Form\UserCancelForm', function (&$data) {
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
     });
   }
 
@@ -33,8 +28,8 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function login() {
-    return $this->handler('\Drupal\user\Form\UserLoginForm', function(&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
+    return $this->handler('\Drupal\user\Form\UserLoginForm', function (&$data) {
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
     });
   }
 
@@ -45,7 +40,7 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function loginStatus() {
-    return $this->response(array('active' => \Drupal::currentUser()->isAuthenticated()));
+    return $this->response(['active' => \Drupal::currentUser()->isAuthenticated()]);
   }
 
   /**
@@ -68,8 +63,8 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function passwordReset() {
-    return $this->handler('\Drupal\user\Form\UserPasswordResetForm', function(&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
+    return $this->handler('\Drupal\user\Form\UserPasswordResetForm', function (&$data) {
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
     });
   }
 
@@ -105,14 +100,15 @@ class HeadlessUserController extends HeadlessBase {
    * @see \Drupal\user\Entity\User
    */
   private function process($name) {
-    $entity = \Drupal::entityTypeManager()->getStorage('user')->create(array());
+    $entity = \Drupal::entityTypeManager()->getStorage('user')->create([]);
 
     $form = \Drupal::entityTypeManager()
       ->getFormObject('user', $name)
       ->setEntity($entity);
 
-    return $this->handler($form, function(&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', array(&$data));
+    return $this->handler($form, function (&$data) {
+      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
     });
   }
+
 }

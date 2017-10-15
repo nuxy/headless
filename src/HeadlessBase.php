@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\headless\HeadlessBase.
- */
-
 namespace Drupal\headless;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -71,17 +66,17 @@ class HeadlessBase implements ContainerInjectionInterface {
   /**
    * Retrieves an instance of the JsonResponse object.
    *
-   * @return \Symfony\Component\HttpFoundation\JsonResponse | null
+   * @return \Symfony\Component\HttpFoundation\JsonResponse|null
    *   Response represents an HTTP response in JSON format.
    */
-  public function response($data = NULL, $status = 200, $headers = array()) {
+  public function response($data = NULL, $status = 200, $headers = []) {
     return new JsonResponse($data, $status, $headers);
   }
 
   /**
    * Retrieves an instance of the Request object.
    *
-   * @return \Symfony\Component\HttpFoundation\Request | null
+   * @return \Symfony\Component\HttpFoundation\Request|null
    *   Request represents an HTTP request or null.
    */
   public function request() {
@@ -91,7 +86,7 @@ class HeadlessBase implements ContainerInjectionInterface {
   /**
    * Retrieves, populates, and processes a form.
    *
-   * @param class | \Drupal\Core\Form\FormInterface $form_arg
+   * @param class|\Drupal\Core\Form\FormInterface $form_arg
    *   The name (or class) that implements \Drupal\Core\Form\FormInterface.
    * @param array $params
    *   HTTP request parameters.
@@ -109,9 +104,9 @@ class HeadlessBase implements ContainerInjectionInterface {
     if ($form_state->hasAnyErrors()) {
 
       // Returns an associative array of error messages.
-      return array(
+      return [
         'error' => $form_state->getErrors(),
-      );
+      ];
     }
     else {
       $values = $form_state->getValues();
@@ -122,16 +117,16 @@ class HeadlessBase implements ContainerInjectionInterface {
       }
 
       // Returns the submitted and sanitized form values.
-      return array(
+      return [
         'data' => $values,
-      );
+      ];
     }
   }
 
   /**
    * Process the client-side request and send response.
    *
-   * @param class | \Drupal\Core\Form\FormInterface $form_arg
+   * @param class|\Drupal\Core\Form\FormInterface $form_arg
    *   The name (or class) that implements \Drupal\Core\Form\FormInterface.
    * @param callable $callback
    *   Defines a callback function.
@@ -141,9 +136,9 @@ class HeadlessBase implements ContainerInjectionInterface {
    */
   public function handler($form_arg, callable $callback = NULL) {
     $response = $this->response();
-    $request  = $this->request();
+    $request = $this->request();
 
-    $output = array();
+    $output = [];
     $params = NULL;
 
     // Get the Request body and decode the JSON content.
@@ -196,4 +191,5 @@ class HeadlessBase implements ContainerInjectionInterface {
     json_decode($string);
     return (json_last_error() == JSON_ERROR_NONE);
   }
+
 }

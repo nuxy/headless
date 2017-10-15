@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Contains \Drupal\headless\Routing\HeadlessRouteSubscriber.
- */
-
 namespace Drupal\headless\Routing;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -18,14 +14,14 @@ class HeadlessRouteSubscriber extends RouteSubscriberBase {
   /**
    * The ConfigFactory instance.
    *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface.
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
 
   /**
    * Constructs a \Drupal\headless\Routing\HeadlessRoutes object.
    *
-   * @param ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The ConfigFactory instance.
    */
   public function __construct(ConfigFactoryInterface $config_factory) {
@@ -38,7 +34,7 @@ class HeadlessRouteSubscriber extends RouteSubscriberBase {
   public function alterRoutes(RouteCollection $route_collection) {
     $routing_path = $this->configFactory->get('headless.config')->get('routing_path');
 
-    $route_names  = $route_collection->all();
+    $route_names = $route_collection->all();
     foreach ($route_names as $key => $route) {
 
       // Filter Headless public routes.
@@ -54,4 +50,5 @@ class HeadlessRouteSubscriber extends RouteSubscriberBase {
       }
     }
   }
+
 }

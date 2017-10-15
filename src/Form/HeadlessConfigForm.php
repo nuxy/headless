@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\headless\Form\HeadlessConfigForm.
- */
-
 namespace Drupal\headless\Form;
 
 use Drupal\Component\Utility\UrlHelper;
@@ -63,23 +58,23 @@ class HeadlessConfigForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('headless.config');
 
-    $form['routing'] = array(
+    $form['routing'] = [
       '#type' => 'details',
       '#title' => t('Routing'),
       '#description' => t('The publicly accessible path to User operation routes. This must be a unique path, currently not in use.'),
       '#open' => TRUE,
-    );
+    ];
 
-    $form['routing']['routing_path'] = array(
+    $form['routing']['routing_path'] = [
       '#type' => 'textfield',
       '#title' => t('Path'),
       '#size' => 55,
       '#maxlength' => 55,
       '#default_value' => $config->get('routing_path'),
       '#required' => TRUE,
-      '#attributes' => array('placeholder' => 'service'),
+      '#attributes' => ['placeholder' => 'service'],
       '#field_prefix' => $this->requestContext->getCompleteBaseUrl() . '/',
-    );
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -99,13 +94,13 @@ class HeadlessConfigForm extends ConfigFormBase {
 
     if ($routing_path[0] == '/') {
       $form_state->setErrorByName('routing_path',
-        t("The path '%path' cannot start with a slash.", array('%path' => $routing_path))
+        t("The path '%path' cannot start with a slash.", ['%path' => $routing_path])
       );
     }
 
     if (!UrlHelper::isValid($routing_path)) {
       $form_state->setErrorByName('routing_path',
-        t("The path '%path' is invalid or you do not have access to it.", array('%path' => $routing_path))
+        t("The path '%path' is invalid or you do not have access to it.", ['%path' => $routing_path])
       );
     }
   }
@@ -127,4 +122,5 @@ class HeadlessConfigForm extends ConfigFormBase {
   protected function getEditableConfigNames() {
     return ['headless.config'];
   }
+
 }
