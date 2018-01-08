@@ -86,7 +86,7 @@ class HeadlessBase implements ContainerInjectionInterface {
   /**
    * Retrieves, populates, and processes a form.
    *
-   * @param class|\Drupal\Core\Form\FormInterface $form_arg
+   * @param class|\Drupal\Core\Form\FormInterface|\Drupal\node\NodeForm $form_arg
    *   The name (or class) that implements \Drupal\Core\Form\FormInterface.
    * @param array $params
    *   HTTP request parameters.
@@ -126,7 +126,7 @@ class HeadlessBase implements ContainerInjectionInterface {
   /**
    * Process the client-side request and send response.
    *
-   * @param class|\Drupal\Core\Form\FormInterface $form_arg
+   * @param class|\Drupal\Core\Form\FormInterface|\Drupal\node\NodeForm $form_arg
    *   The name (or class) that implements \Drupal\Core\Form\FormInterface.
    * @param callable $callback
    *   Defines a callback function.
