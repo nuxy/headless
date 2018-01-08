@@ -151,7 +151,7 @@ class HeadlessBase implements ContainerInjectionInterface {
     }
 
     // Submit the form.
-    if ($request->getMethod() == 'POST' && $params) {
+    if (preg_match('/PATCH|POST|PUT/', $request->getMethod()) && $params) {
       $output = $this->submitForm($form_arg, $params);
 
       // Success.
@@ -160,6 +160,10 @@ class HeadlessBase implements ContainerInjectionInterface {
         // Execute pre-process callback, if provided.
         if (is_callable($callback)) {
           $callback($output['data']);
+
+          if (empty($output['data'])) {
+            unset($output['data']);
+          }
         }
 
         $response->setStatusCode($response::HTTP_ACCEPTED);
