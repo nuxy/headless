@@ -145,6 +145,8 @@ class HeadlessBase implements ContainerInjectionInterface {
     $content = $request->getContent();
     if ($this->isJson($content)) {
       $params = $this->serializer->decode($content, 'json');
+
+      \Drupal::moduleHandler()->invokeAll('headless_request_alter', [$request, &$params]);
     }
     else {
       $response->setStatusCode($response::HTTP_BAD_REQUEST);

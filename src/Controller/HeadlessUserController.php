@@ -17,7 +17,7 @@ class HeadlessUserController extends HeadlessBase {
    */
   public function cancel() {
     return $this->handler('\Drupal\user\Form\UserCancelForm', function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
+      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
     });
   }
 
@@ -29,7 +29,7 @@ class HeadlessUserController extends HeadlessBase {
    */
   public function login() {
     return $this->handler('\Drupal\user\Form\UserLoginForm', function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
+      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
     });
   }
 
@@ -64,7 +64,7 @@ class HeadlessUserController extends HeadlessBase {
    */
   public function passwordReset() {
     return $this->handler('\Drupal\user\Form\UserPasswordResetForm', function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
+      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
     });
   }
 
@@ -107,7 +107,7 @@ class HeadlessUserController extends HeadlessBase {
       ->setEntity($entity);
 
     return $this->handler($form, function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
+      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
     });
   }
 

@@ -23,3 +23,12 @@ function headless_help($route_name, RouteMatchInterface $route_match) {
     default:
   }
 }
+
+/**
+ * Implements hook_headless_response_alter().
+ */
+function headless_headless_response_alter(array &$data) {
+
+  // Support deprecated hook to be removed in future release.
+  \Drupal::moduleHandler()->invokeAll('headless_data_alter', [&$data]);
+}
