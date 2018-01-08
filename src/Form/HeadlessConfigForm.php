@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RequestContext;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,17 +23,27 @@ class HeadlessConfigForm extends ConfigFormBase {
   protected $requestContext;
 
   /**
+   * A logger instance.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
    * Constructs a HeadlessConfigForm object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory.
    * @param \Drupal\Core\Routing\RequestContext $request_context
    *   The router request context.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, RequestContext $request_context) {
+  public function __construct(ConfigFactoryInterface $config_factory, RequestContext $request_context, LoggerInterface $logger) {
     parent::__construct($config_factory);
 
     $this->requestContext = $request_context;
+    $this->logger = $logger;
   }
 
   /**
@@ -48,7 +59,8 @@ class HeadlessConfigForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('router.request_context')
+      $container->get('router.request_context'),
+      $container->get('logger.channel.headless')
     );
   }
 
@@ -109,11 +121,19 @@ class HeadlessConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $routing_path = $form_state->getValue('routing_path');
+
     $config = $this->config('headless.config');
-    $config->set('routing_path', $form_state->getValue('routing_path'));
+    $config->set('routing_path', $routing_path);
     $config->save();
 
     drupal_set_message(t('Configuration saved successfully!'), 'status', FALSE);
+
+    $path = $this->requestContext->getCompleteBaseUrl() . '/' . $routing_path;
+
+    $message = t('Updated publicly accessible path (@path).', ['@path' => $path]);
+
+    $this->logger->notice($message);
   }
 
   /**

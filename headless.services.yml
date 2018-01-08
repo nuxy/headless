@@ -4,3 +4,8 @@ services:
     arguments: ['@config.factory']
     tags:
       - { name: event_subscriber }
+
+  logger.channel.headless:
+    class: Drupal\Core\Logger\LoggerChannel
+    factory: logger.factory:get
+    arguments: ['headless']
