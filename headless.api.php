@@ -23,7 +23,7 @@ function hook_headless_data_alter(&$data) {
  * @param array $data
  *   The response data reference.
  */
-function hook_headless_response_alter(&$data) {
+function hook_headless_response_alter(array &$data) {
 
 }
 
@@ -33,6 +33,6 @@ function hook_headless_response_alter(&$data) {
  * @param array $params
  *   The request parameters reference.
  */
-function hook_headless_request_alter(&$params) {
+function hook_headless_request_alter(array &$params) {
 
 }

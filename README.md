@@ -24,10 +24,12 @@ Once the module has been installed/enabled, you can navigate to `admin/config/se
 
 ## Hooks
 
-As of current, the `FormState` instance is returned that includes the `form_id` and field values.  In cases where this in NOT preferred you can override the response data using the following hook:
+#### hook_headless_response_alter()
+
+The `FormState` instance is returned that includes the `form_id` and field values.  In cases where this in NOT preferred you can override the response data prior to sending.
 
 ```
-function hook_headless_response_alter(&$data) {
+function hook_headless_response_alter(array &$data) {
 
   // Preprocess Login responses.
   if ($data['form_id'] == 'user_login_form') {
@@ -38,8 +40,12 @@ function hook_headless_response_alter(&$data) {
 }
 ```
 
+#### hook_headless_request_alter()
+
+When using custom field parameter names in your client-side application you can alter these values prior to `FormState` validation.
+
 ```
-function hook_headless_request_alter(&$params) {
+function hook_headless_request_alter(array &$params) {
 
   // Preprocess request parameters.
   if (isset($params['name'])) {
