@@ -66,10 +66,17 @@ class HeadlessBase implements ContainerInjectionInterface {
   /**
    * Retrieves an instance of the JsonResponse object.
    *
+   * @param mixed $data
+   *   The response data.
+   * @param int $status
+   *   The response status code.
+   * @param array $headers
+   *   An array of response headers.
+   *
    * @return \Symfony\Component\HttpFoundation\JsonResponse|null
    *   Response represents an HTTP response in JSON format.
    */
-  public function response($data = NULL, $status = 200, $headers = []) {
+  public function response($data = NULL, $status = 200, array $headers = []) {
     return new JsonResponse($data, $status, $headers);
   }
 
@@ -146,7 +153,7 @@ class HeadlessBase implements ContainerInjectionInterface {
     if ($this->isJson($content)) {
       $params = $this->serializer->decode($content, 'json');
 
-      \Drupal::moduleHandler()->invokeAll('headless_request_alter', [$request, &$params]);
+      \Drupal::moduleHandler()->invokeAll('headless_request_alter', [&$params]);
     }
     else {
       $response->setStatusCode($response::HTTP_BAD_REQUEST);
@@ -158,14 +165,15 @@ class HeadlessBase implements ContainerInjectionInterface {
 
       // Success.
       if (isset($output['data'])) {
+        \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$output['data']]);
 
         // Execute pre-process callback, if provided.
         if (is_callable($callback)) {
           $callback($output['data']);
+        }
 
-          if (empty($output['data'])) {
-            unset($output['data']);
-          }
+        if (empty($output['data'])) {
+          unset($output['data']);
         }
 
         $response->setStatusCode($response::HTTP_ACCEPTED);
