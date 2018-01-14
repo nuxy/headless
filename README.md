@@ -27,13 +27,26 @@ Once the module has been installed/enabled, you can navigate to `admin/config/se
 As of current, the `FormState` instance is returned that includes the `form_id` and field values.  In cases where this in NOT preferred you can override the response data using the following hook:
 
 ```
-function hook_headless_data_alter(array &$data) {
+function hook_headless_response_alter(&$data) {
 
   // Preprocess Login responses.
   if ($data['form_id'] == 'user_login_form') {
 
     // Return nothing.
     $data = NULL;
+  }
+}
+```
+
+```
+function hook_headless_request_alter(&$params) {
+
+  // Preprocess request parameters.
+  if (isset($params['name'])) {
+
+    // Add prefix to key name.
+    $params['field_name'] = $params['name'];
+    unset($params['name']);
   }
 }
 ```
