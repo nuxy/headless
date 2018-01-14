@@ -16,9 +16,7 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function cancel() {
-    return $this->handler('\Drupal\user\Form\UserCancelForm', function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
-    });
+    return $this->handler('\Drupal\user\Form\UserCancelForm');
   }
 
   /**
@@ -28,9 +26,7 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function login() {
-    return $this->handler('\Drupal\user\Form\UserLoginForm', function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
-    });
+    return $this->handler('\Drupal\user\Form\UserLoginForm');
   }
 
   /**
@@ -63,9 +59,7 @@ class HeadlessUserController extends HeadlessBase {
    *   Response represents an HTTP response in JSON format.
    */
   public function passwordReset() {
-    return $this->handler('\Drupal\user\Form\UserPasswordResetForm', function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
-    });
+    return $this->handler('\Drupal\user\Form\UserPasswordResetForm');
   }
 
   /**
@@ -106,9 +100,7 @@ class HeadlessUserController extends HeadlessBase {
       ->getFormObject('user', $name)
       ->setEntity($entity);
 
-    return $this->handler($form, function (&$data) {
-      \Drupal::moduleHandler()->invokeAll('headless_response_alter', [&$data]);
-    });
+    return $this->handler($form);
   }
 
 }
