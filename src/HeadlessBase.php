@@ -106,6 +106,10 @@ class HeadlessBase implements ContainerInjectionInterface {
     // Create FormState instance, set values, and submit.
     $form_state = (new FormState())->setValues($params);
 
+    $form_state->setTriggeringElement([
+      '#parents' => ['save'],
+    ]);
+
     \Drupal::formBuilder()->submitForm($form_arg, $form_state);
 
     if ($form_state->hasAnyErrors()) {
