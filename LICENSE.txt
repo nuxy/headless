@@ -1,5 +1,5 @@
 Headless
-Expose Drupal 8 user operations as routes that support the JSON exchange format.
+Exposes user operations as routes that support the JSON exchange format.
 
 Copyright 2016-2018, Marc S. Brooks (https://mbrooks.info)
 
